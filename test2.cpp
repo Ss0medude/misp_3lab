@@ -7,19 +7,19 @@ SUITE(KeyTest)
         CHECK_EQUAL("LLEHO",modAlphaCipher("4").encrypt("HELLO"));
     }
     TEST(LetterInKey) {
-        CHECK_THROW(modAlphaCipher cp("А1"),Wrong key);
+        CHECK_THROW(modAlphaCipher cp("А1"),error_cipher);
     }
     TEST(PunctuationInKey) {
-        CHECK_THROW(modAlphaCipher cp("1,1"),Wrong key);
+        CHECK_THROW(modAlphaCipher cp("1,1"),error_cipher);
     }
     TEST(WhitespaceInKey) {
-        CHECK_THROW(modAlphaCipher cp("1 1"),Wrong key);
+        CHECK_THROW(modAlphaCipher cp("1 1"),error_cipher);
     }
     TEST(EmptyKey) {
-        CHECK_THROW(modAlphaCipher cp(""),Wrong key);
+        CHECK_THROW(modAlphaCipher cp(""),error_cipher);
     }
     TEST(WeakKey) {
-        CHECK_THROW(modAlphaCipher cp("1"),Wrong key);
+        CHECK_THROW(modAlphaCipher cp("1"),error_cipher);
     }
 }
 
@@ -53,10 +53,10 @@ SUITE(EncryptTest)
         CHECK_EQUAL("IMOWATEHLLSIN", p->encrypt("LEWIS!HAMILTON"));
     }
     TEST_FIXTURE(KeyB_fixture, EmptyString) {
-        CHECK_THROW(p->encrypt(""),Wrong text);
+        CHECK_THROW(p->encrypt(""),error_cipher);
     }
     TEST_FIXTURE(KeyB_fixture, NoAlphaString) {
-        CHECK_THROW(p->encrypt("123456789"),Wrong text);
+        CHECK_THROW(p->encrypt("123456789"),error_cipher);
     }
     TEST(MaxShiftKey) {
         CHECK_EQUAL("NOTLIMAHSIWEL",
@@ -71,19 +71,19 @@ SUITE(DecryptText)
                     p->decrypt("IMOWATEHLLSIN"));
     }
     TEST_FIXTURE(KeyB_fixture, LowCaseString) {
-        CHECK_THROW(p->decrypt("imowatehllsin"),Wrong text);
+        CHECK_THROW(p->decrypt("imowatehllsin"),error_cipher);
     }
     TEST_FIXTURE(KeyB_fixture, WhitespaceString) {
-        CHECK_THROW(p->decrypt("IMO WATEHLLSIN"),Wrong text);
+        CHECK_THROW(p->decrypt("IMO WATEHLLSIN"),error_cipher);
     }
     TEST_FIXTURE(KeyB_fixture, DigitsString) {
-        CHECK_THROW(p->decrypt("123IMOWATEHLLSIN"),Wrong text);
+        CHECK_THROW(p->decrypt("123IMOWATEHLLSIN"),error_cipher);
     }
     TEST_FIXTURE(KeyB_fixture, PunctString) {
-        CHECK_THROW(p->decrypt("IMOWATEHLLSIN!"),Wrong text);
+        CHECK_THROW(p->decrypt("IMOWATEHLLSIN!"),error_cipher);
     }
     TEST_FIXTURE(KeyB_fixture, EmptyString) {
-        CHECK_THROW(p->decrypt(""),Wrong text);
+        CHECK_THROW(p->decrypt(""),error_cipher);
     }
     TEST(MaxShiftKey) {
         CHECK_EQUAL("NOTLIMAHSIWEL",
