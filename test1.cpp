@@ -16,19 +16,19 @@ SUITE(KeyTest) //макрос для создания набора тестов
         CHECK_EQUAL("АБВАБ", modAlphaCipher("абвгдеёжз").encrypt("АВДЁЗ"));
     }
     TEST(DigitsInKey) {
-        CHECK_THROW(modAlphaCipher cp("А1"), Wrong key);// марос для проверки на возбуждение исключения
+        CHECK_THROW(modAlphaCipher cp("А1"), cipher_error);// марос для проверки на возбуждение исключения
     }
     TEST(PunctuationInKey) {
-        CHECK_THROW(modAlphaCipher cp("А+Б"), Wrong key);
+        CHECK_THROW(modAlphaCipher cp("А+Б"), cipher_error);
     }
     TEST(WhitespaceInKey) {
-        CHECK_THROW(modAlphaCipher cp("А Б"), Wrong key);
+        CHECK_THROW(modAlphaCipher cp("А Б"), cipher_error);
     }
     TEST(EmptyKey) {
-        CHECK_THROW(modAlphaCipher cp(""), Wrong key);
+        CHECK_THROW(modAlphaCipher cp(""), cipher_error);
     }
     TEST(WeakKey) {
-        CHECK_THROW(modAlphaCipher cp("ААА"), Wrong key);
+        CHECK_THROW(modAlphaCipher cp("ААА"), cipher_error);
     }
 }
 struct KeyB_fixture {//слово struct использовано вместо class чтобы сделать все
@@ -54,10 +54,10 @@ SUITE(EncryptTest)
         CHECK_EQUAL("ХПЩУТЁАУЮКФТСПДУЯ", p->encrypt("хочу СДАТЬ курсовую"));
     }
     TEST_FIXTURE(KeyB_fixture, EmptyString) {
-        CHECK_THROW(p->encrypt(""), Wrong text);
+        CHECK_THROW(p->encrypt(""), cipher_error);
     }
     TEST_FIXTURE(KeyB_fixture, NoAlphaString) {
-        CHECK_THROW(p->encrypt("123456789"), Wrong text);
+        CHECK_THROW(p->encrypt("123456789"), cipher_error);
     }
     TEST(MaxShiftKey) {
         CHECK_EQUAL("ФНЦТРГЯСЫЙТПРНБТЭ",modAlphaCipher("Я").encrypt("ХОЧУСДАТЬКУРСОВУЮ"));
@@ -69,19 +69,19 @@ SUITE(DecryptText)
         CHECK_EQUAL("ХОЧУСДАТЬКУРСОВУЮ", p->decrypt("ХПЩУТЁАУЮКФТСПДУЯ"));
     }
     TEST_FIXTURE(KeyB_fixture, LowCaseString) {
-        CHECK_THROW(p -> decrypt("хпщутёауюкфтспдуя"), Wrong text);
+        CHECK_THROW(p -> decrypt("хпщутёауюкфтспдуя"), cipher_error);
     }
     TEST_FIXTURE(KeyB_fixture, WhitespaceString) {
-        CHECK_THROW(p->decrypt("ХПЩУ ТЁАУЮКФ ТСП ДУЯ"),Wrong text);
+        CHECK_THROW(p->decrypt("ХПЩУ ТЁАУЮКФ ТСП ДУЯ"),cipher_error);
     }
     TEST_FIXTURE(KeyB_fixture, DigitsString) {
-        CHECK_THROW(p -> decrypt("123456789"), Wrong text);
+        CHECK_THROW(p -> decrypt("123456789"), cipher_error);
     }
     TEST_FIXTURE(KeyB_fixture, PunctString) {
-        CHECK_THROW(p -> decrypt("ХПЩУТЁАУЮКФТСПДУЯ!!!"), Wrong text);
+        CHECK_THROW(p -> decrypt("ХПЩУТЁАУЮКФТСПДУЯ!!!"), cipher_error);
     }
     TEST_FIXTURE(KeyB_fixture, EmptyString) {
-        CHECK_THROW(p->decrypt(""), Wrong text);
+        CHECK_THROW(p->decrypt(""), cipher_error);
     }
     TEST(MaxShiftKey) {
         CHECK_EQUAL("ФНЦТРГЯСЫЙТПРНБТЭ",modAlphaCipher("Я").encrypt("ХОЧУСДАТЬКУРСОВУЮ"));
